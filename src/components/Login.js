@@ -28,7 +28,7 @@ const Login = () => {
 
                 setError('');
                 alert('Login exitoso');
-                navigate('/dashboard');
+                navigate('/');
             } else {
                 setError('Credenciales inválidas. Por favor, intenta nuevamente.');
             }

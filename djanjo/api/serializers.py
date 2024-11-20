@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomUser
+from .models import CustomUser, Producto, Proveedor, Servicio, ReservaHora, FacturaBoleta, Empleado, OrdenPedido, RecepcionProducto
 from django.core.exceptions import ValidationError
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -25,3 +25,52 @@ class CustomUserSerializer(serializers.ModelSerializer):
             password=validated_data['password']
         )
         return user
+
+# Serializer para Producto
+class ProductoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Producto
+        fields = '__all__'
+
+# Serializer para Proveedor
+class ProveedorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Proveedor
+        fields = '__all__'
+
+# Serializer para Servicio
+class ServicioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Servicio
+        fields = '__all__'
+
+# Serializer para ReservaHora
+class ReservaHoraSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReservaHora
+        fields = '__all__'
+
+# Serializer para FacturaBoleta
+class FacturaBoletaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FacturaBoleta
+        fields = '__all__'
+
+# Serializer para Empleado
+class EmpleadoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Empleado
+        fields = '__all__'
+
+# Serializer para OrdenPedido
+class OrdenPedidoSerializer(serializers.ModelSerializer):
+    productos = ProductoSerializer(many=True)
+    class Meta:
+        model = OrdenPedido
+        fields = '__all__'
+
+# Serializer para RecepcionProducto
+class RecepcionProductoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RecepcionProducto
+        fields = '__all__'
