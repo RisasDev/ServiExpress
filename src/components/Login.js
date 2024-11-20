@@ -11,7 +11,7 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/login/', {
+            const response = await fetch('http://127.0.0.1:8000/api/user/login/', { // Usa tu endpoint personalizado
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -19,31 +19,32 @@ const Login = () => {
                 body: JSON.stringify({ username, password }),
             });
 
-            console.log("username", username);
-            console.log("password", password);
-
             if (response.ok) {
                 const data = await response.json();
-                localStorage.setItem('token', data.token);
+
+                // Guarda los tokens en el almacenamiento local
+                localStorage.setItem('access', data.access);
+                localStorage.setItem('refresh', data.refresh);
+
                 setError('');
                 alert('Login exitoso');
-                navigate('/dashboard'); // Redirige al usuario
-            } 
-            else {
+                navigate('/dashboard');
+            } else {
                 setError('Credenciales inválidas. Por favor, intenta nuevamente.');
             }
         } catch (error) {
             setError('Ocurrió un error. Intenta más tarde.');
+            console.error("Error durante el login:", error);
         }
     };
 
     return (
         <div style={{
-            maxWidth: '400px', 
-            margin: 'auto', 
-            padding: '1rem', 
-            backgroundColor: '#fff', 
-            borderRadius: '8px', 
+            maxWidth: '400px',
+            margin: 'auto',
+            padding: '1rem',
+            backgroundColor: '#fff',
+            borderRadius: '8px',
             boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
             marginTop: '50px'
         }}>
@@ -111,7 +112,7 @@ const Login = () => {
             </form>
             <p style={{ textAlign: 'center' }}>
                 ¿No tienes cuenta?{' '}
-                <span 
+                <span
                     onClick={() => navigate('/register')} // Redirige a la página de registro
                     style={{ cursor: 'pointer', color: 'blue' }}
                 >

@@ -9,7 +9,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}
 
     def validate_rut(self, value):
-        # Validación adicional para el RUT, si es necesario
         if not value:
             raise ValidationError("El RUT es obligatorio")
         return value
@@ -22,7 +21,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
             nombre=validated_data['nombre'],
             apellido=validated_data['apellido'],
             telefono=validated_data['telefono'],
-            direccion=validated_data['direccion']
+            direccion=validated_data['direccion'],
+            password=validated_data['password']
         )
-        user.set_password(validated_data['password'])
         return user

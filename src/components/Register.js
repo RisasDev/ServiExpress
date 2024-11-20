@@ -11,6 +11,7 @@ const Register = () => {
     const [telefono, setTelefono] = useState('');
     const [direccion, setDireccion] = useState('');
     const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -28,7 +29,7 @@ const Register = () => {
         };
 
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/register/', {
+            const response = await fetch('http://127.0.0.1:8000/api/user/register/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -36,16 +37,9 @@ const Register = () => {
                 body: JSON.stringify(payload),
             });
 
-            console.log("username", username);
-            console.log("email", email);
-            console.log("password", password);
-            console.log("rut", rut);
-            console.log("nombre", nombre);
-            console.log("apellido", apellido);
-            console.log("telefono", telefono);
-            console.log("direccion", direccion);
-
             if (response.ok) {
+                setError('');
+                setSuccess('Registro exitoso');
                 alert('Registro exitoso');
                 navigate('/login'); // Redirige a la página de login después de registrarse
             } 
@@ -70,6 +64,7 @@ const Register = () => {
         }}>
             <h2 style={{ textAlign: 'center', color: '#007bff' }}>Registrarse</h2>
             {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
+            {success && <p style={{ color: 'green', textAlign: 'center' }}>{success}</p>}
             <form onSubmit={handleSubmit}>
                 <div style={{ marginBottom: '1rem' }}>
                     <label htmlFor="username" style={{ display: 'block', color: '#333' }}>Nombre de Usuario</label>

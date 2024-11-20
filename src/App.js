@@ -45,7 +45,7 @@ function App() {
           {/* Ruta privada para el Dashboard */}
           <Route
             path="/dashboard"
-            element={<PrivateRoute element={<Dashboard />} />}
+            element={<PrivateRoute element={Dashboard} />}
           />
         </Routes>
       </div>
