@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import CustomUser, Servicio, ReservaHora, Rubro, Proveedor, FacturaBoleta, Producto, Rol, Empleado, OrdenPedido, DetalleOrdenPedido, RecepcionProducto, TipoInforme, InformeEstadisticas
+from .models import CustomUser, Servicio, Reserva, Rubro, Proveedor, FacturaBoleta, Producto, Rol, Empleado, OrdenPedido, DetalleOrdenPedido, RecepcionProducto, TipoInforme, InformeEstadisticas
 
 admin.site.register(CustomUser)
 admin.site.register(Servicio)
-admin.site.register(ReservaHora)
+admin.site.register(Reserva)
 admin.site.register(Rubro)
 admin.site.register(Proveedor)
 admin.site.register(FacturaBoleta)

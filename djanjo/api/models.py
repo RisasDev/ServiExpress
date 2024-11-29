@@ -23,11 +23,10 @@ class Servicio(models.Model):
     def __str__(self):
         return self.nombre
 
-class ReservaHora(models.Model):
+class Reserva(models.Model):
     cliente = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     servicio = models.ForeignKey('Servicio', on_delete=models.CASCADE)
     fecha_reserva = models.DateTimeField()
-    fecha_servicio = models.DateTimeField()
     estado = models.CharField(max_length=20, choices=[('pendiente', 'Pendiente'), ('confirmado', 'Confirmado'), ('cancelado', 'Cancelado')], default='pendiente')
     notas = models.TextField(blank=True, null=True)
     
@@ -42,7 +41,7 @@ class Rubro(models.Model):
 
 class Proveedor(models.Model):
     nombre = models.CharField(max_length=255)
-    rubro = models.ForeignKey('Rubro', on_delete=models.CASCADE)
+    rubro = models.ForeignKey(Rubro, on_delete=models.CASCADE)
     email = models.EmailField()
     telefono = models.CharField(max_length=20)
     
@@ -51,14 +50,14 @@ class Proveedor(models.Model):
 
 class FacturaBoleta(models.Model):
     cliente = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    servicios = models.ManyToManyField('Servicio')
+    servicios = models.ManyToManyField(Servicio)
     fecha = models.DateTimeField(auto_now_add=True)
     total = models.DecimalField(max_digits=10, decimal_places=2)
     tipo_documento = models.CharField(max_length=20, choices=[('factura', 'Factura'), ('boleta', 'Boleta')])
     estado = models.CharField(max_length=20, choices=[('pagado', 'Pagado'), ('pendiente', 'Pendiente')], default='pendiente')
     
     def __str__(self):
-        return f'{self.tipo_documento} - {self.cliente.username} - {self.servicio.nombre}'
+        return f'{self.tipo_documento} - {self.cliente.username} - {self.fecha}'
 
 class Rol(models.Model):
     nombre = models.CharField(max_length=50)
@@ -68,7 +67,7 @@ class Rol(models.Model):
 
 class Empleado(models.Model):
     usuario = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    rol = models.ForeignKey('Rol', on_delete=models.CASCADE)
+    rol = models.ForeignKey(Rol, on_delete=models.CASCADE)
     
     def __str__(self):
         return f'{self.usuario.username} ({self.rol.nombre})'

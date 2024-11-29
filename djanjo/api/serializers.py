@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomUser, Producto, Proveedor, Servicio, ReservaHora, FacturaBoleta, Empleado, OrdenPedido, RecepcionProducto
+from .models import CustomUser, Producto, Proveedor, Servicio, Reserva, FacturaBoleta, Empleado, OrdenPedido, RecepcionProducto
 from django.core.exceptions import ValidationError
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -44,10 +44,10 @@ class ServicioSerializer(serializers.ModelSerializer):
         model = Servicio
         fields = '__all__'
 
-# Serializer para ReservaHora
-class ReservaHoraSerializer(serializers.ModelSerializer):
+# Serializer para Reserva
+class ReservaSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ReservaHora
+        model = Reserva
         fields = '__all__'
 
 # Serializer para FacturaBoleta
