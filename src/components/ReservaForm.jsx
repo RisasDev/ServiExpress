@@ -31,7 +31,6 @@ const ReservaForm = () => {
       });
 
       if (response.ok) {
-        const data = await response.json();
         setSuccess("Reserva creada exitosamente");
       } else {
         setError("Error al crear la reserva");
