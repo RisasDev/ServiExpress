@@ -1,12 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import AuthContext from "./AuthContext"; // Importa el contexto
 
 const ReservaForm = () => {
+  const { user } = useContext(AuthContext);
+
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
   const [selectedService, setSelectedService] = useState('');
   const [notes, setNotes] = useState('');
+  const [services, setServices] = useState([]);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/servicios/");
+        if (!response.ok) throw new Error("Error al obtener los servicios");
+        const data = await response.json();
+        setServices(data);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
+    fetchServices();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,12 +33,14 @@ const ReservaForm = () => {
     const dateTime = `${selectedDate}T${selectedTime}`;
 
     const newReserva = {
-      cliente: 9, // ID del usuario (obtenido de la sesión o contexto)
-      servicio: 1, // ID del servicio seleccionado
-      fecha_reserva: dateTime, // Combinar fecha y hora
-      estado: 'pendiente',
-      notas: notes,
+      "cliente": user.id,
+      "servicio": parseInt(selectedService), // Convertir el ID del servicio a número
+      "fecha_reserva": dateTime, // Combinar fecha y hora
+      "estado": 'pendiente',
+      "notas": notes,
     };
+
+    console.log(newReserva);
 
     try {
       const response = await fetch("http://127.0.0.1:8000/api/reservas/", {
@@ -57,11 +78,11 @@ const ReservaForm = () => {
             className="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="">Seleccione un servicio</option>
-            <option value="1">Cambio de Aceite</option>
-            <option value="2">Alineación y Balanceo</option>
-            <option value="3">Revisión de Frenos</option>
-            <option value="4">Diagnóstico Electrónico</option>
-            <option value="5">Mantenimiento Preventivo</option>
+            {services.map((service) => (
+              <option key={service.id} value={service.id}>
+                {service.descripcion} - ${service.precio}
+              </option>
+            ))}
           </select>
         </div>
 

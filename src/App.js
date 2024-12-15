@@ -9,6 +9,9 @@ import PrivateRoute from "./routes/PrivateRoute";
 import Profile from "./components/Profile";
 import Reservas from "./components/Reservas";
 import ReservaForm from "./components/ReservaForm";
+import Servicios from "./components/Servicios";
+import ServicioForm from "./components/ServicioForm";
+import Usuarios from "./components/Usuarios";
 import { AuthProvider } from "./components/AuthContext";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -58,12 +61,24 @@ function App() {
               element={<PrivateRoute element={Reservas} />}
             />
             <Route
+              path="/dashboard/servicios"
+              element={<PrivateRoute element={Servicios} />}
+            />
+            <Route
+              path="/dashboard/usuarios"
+              element={<PrivateRoute element={Usuarios} />}
+            />
+            <Route
               path="/profile"
               element={<PrivateRoute element={Profile} />}
             />
             <Route
               path="/reservas/nueva"
               element={<PrivateRoute element={ReservaForm} />}
+            />
+            <Route
+              path="/servicios/nueva"
+              element={<PrivateRoute element={ServicioForm} />}
             />
           </Routes>
         </div>

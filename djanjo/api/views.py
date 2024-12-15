@@ -66,6 +66,14 @@ class ReservaDetailView(APIView):
         reserva.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
+class ClienteListView(generics.ListAPIView):
+    queryset = CustomUser.objects.filter(is_staff=False)
+    serializer_class = CustomUserSerializer
+    
+class ClienteDetailView(generics.RetrieveAPIView):
+    queryset = CustomUser.objects.filter(is_staff=False)
+    serializer_class = CustomUserSerializer
+    
 class ProveedorListCreateView(generics.ListCreateAPIView):
     queryset = Proveedor.objects.all()
     serializer_class = ProveedorSerializer
@@ -173,9 +181,19 @@ def get_user_info(request):
         'id': user.id,
         'username': user.username,
         'email': user.email,
+        'rut': user.rut,
+        'nombre': user.nombre,
+        'apellido': user.apellido,
+        'telefono': user.telefono,
+        'direccion': user.direccion,
         'is_superuser': user.is_superuser,
         'is_staff': user.is_staff,
     })
+    
+@api_view(['GET'])
+def get_users_count(request):
+    users_count = CustomUser.objects.count()
+    return Response({"users_count": users_count})
 
 @api_view(['GET'])
 def estadisticas_generales(request):
